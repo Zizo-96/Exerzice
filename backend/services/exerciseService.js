@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Exercise = require('../models/exerciseModel');
+require('dotenv').config();
 
 const fetchExercisesFromAPI = async () => {
   const options = {
@@ -7,7 +8,7 @@ const fetchExercisesFromAPI = async () => {
     url: 'https://exercisedb.p.rapidapi.com/exercises',
     params: {limit: '200'},
     headers: {
-      'X-RapidAPI-Key': 'd0e831bc28msh98628e4935f55ebp1adf9bjsn719d24f410ca',
+      'X-RapidAPI-Key': process.env.API_KEY,
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
     }
   };
