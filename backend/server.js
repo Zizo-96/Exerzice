@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/users', userRoutes);
-app.use('/exercise', exerciseRoutes);
+app.use('/exercises', exerciseRoutes);
 
 connectDB();
 // saveExercisesToDatabase();

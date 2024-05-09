@@ -6,7 +6,7 @@ const fetchExercisesFromAPI = async () => {
   const options = {
     method: 'GET',
     url: 'https://exercisedb.p.rapidapi.com/exercises',
-    params: {limit: '200'},
+    params: {limit: '600'},
     headers: {
       'X-RapidAPI-Key': process.env.API_KEY,
       'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'
