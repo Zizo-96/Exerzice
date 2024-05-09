@@ -30,8 +30,8 @@ export default function SignIn() {
     event.preventDefault();
     try {
       let user = { email, password };
-      let res = await axios.post('http://localhost:8080/user/logIn', user);
-      // let res = await axios.post('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/users/logIn', user);
+      // let res = await axios.post('http://localhost:8080/users/logIn', user);
+      let res = await axios.post('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/users/logIn', user);
       console.log(res.data.message);
       if (res.data.message === "LogIn successfully") {
         // Storing the token in local storage only if login is successful

@@ -13,11 +13,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import logo from '../assets/logo.png';
-import { Link, useNavigate } from 'react-router-dom';
+import logo2 from '../assets/logo2.png';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-const pages = ['Programs', 'Exercises', 'Store'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Exercises','Programs', 'Store'];
+const settings = ['Profile', 'Dashboard', 'Logout'];
 const authes = ['Login', 'Signup'];
 
 function ResponsiveAppBar() {
@@ -26,6 +27,12 @@ function ResponsiveAppBar() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false); 
 
   const navigate = useNavigate();
+  let token;
+  let decoded;
+  if (localStorage.getItem('token')) {
+    token = localStorage.getItem('token');
+    decoded = jwtDecode(token);
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -46,8 +53,19 @@ function ResponsiveAppBar() {
   const handleSettingClick = (setting) => {
     if (setting === "Logout") {
       // handling logout
+      if (token) {
+        localStorage.removeItem('token');
+      } else {
+        navigate("/");
+      }
       setIsLoggedIn(false);
       handleCloseUserMenu();
+    }
+  };
+
+  const handlePagesClick = (page) => {
+    if (page === "Exercises") {
+      navigate("/exercises");
     }
   };
 
@@ -56,7 +74,7 @@ function ResponsiveAppBar() {
       navigate('/signup'); // Navigate to the signup page
       handleCloseUserMenu();
     }else{
-      navigate('/login');
+      navigate('/login'); // Navigate to login page
     }
     setAnchorElUser(null);
   };
@@ -66,7 +84,7 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-            <img src={logo} alt="Logo" height="35rem" />
+            <img src={logo2} alt="Logo" height="35rem" />
           </Box>
           <Box sx={{ flexGrow: 1 }}>
             <IconButton
@@ -96,7 +114,9 @@ function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" onClick={() => handlePagesClick(page)}>
+                    {page}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -109,6 +129,7 @@ function ResponsiveAppBar() {
               <Button
                 key={page}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                onClick={() => handlePagesClick(page)}
               >
                 {page}
               </Button>
@@ -137,7 +158,7 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {/* rendering the authentication elements when user isn't logged in */}
-              {!isLoggedIn ? (
+              {!token ? (
                 authes.map((auth) => (
                   <MenuItem key={auth} >
                     <Typography textAlign="center" onClick={() => handleAuthClick(auth)}>
