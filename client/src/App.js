@@ -1,5 +1,5 @@
 // import { Box, Paper, Button } from '@mui/material';
-import Container from '@mui/material/Container'
+// import Container from '@mui/material/Container'
 // import Typography from '@mui/material/Typography'
 import Navbar from './components/Navbar';
 import Signup from './components/Signup';
@@ -11,7 +11,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <div className="App">
-
          <BrowserRouter>
         <Navbar/>
         <Routes>
@@ -21,8 +20,6 @@ function App() {
           <Route path="/exercises" element={<Exercises />} />
         </Routes>
       </BrowserRouter>
-      <Container sx={{height: "100vh"}}>
-      </Container>
     </div>
   );
 }

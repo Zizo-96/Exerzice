@@ -17,7 +17,7 @@ import logo2 from '../assets/logo2.png';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-const pages = ['Exercises','Programs', 'Store'];
+const pages = ['Home', 'Exercises', 'Programs', 'Store'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 const authes = ['Login', 'Signup'];
 
@@ -55,6 +55,7 @@ function ResponsiveAppBar() {
       // handling logout
       if (token) {
         localStorage.removeItem('token');
+        navigate("/");
       } else {
         navigate("/");
       }
@@ -66,8 +67,11 @@ function ResponsiveAppBar() {
   const handlePagesClick = (page) => {
     if (page === "Exercises") {
       navigate("/exercises");
+    } else if(page === "Home"){
+      navigate("/");
     }
   };
+  
 
   const handleAuthClick = (auth) => {
     if (auth === "Signup") {
