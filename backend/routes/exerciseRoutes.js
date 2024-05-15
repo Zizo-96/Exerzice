@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const getAllExercises = require('../controllers/exerciseController');
+const { getAllExercises, getExercisesByIds } = require('../controllers/exerciseController');
 
-// Route to get all exercises
 router.get('/', getAllExercises);
+router.get('/by-ids', getExercisesByIds);
 
 module.exports = router;
