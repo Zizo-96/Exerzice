@@ -69,9 +69,10 @@ function ResponsiveAppBar() {
       navigate("/exercises");
     } else if(page === "Home"){
       navigate("/");
+    } else if(page === "Programs"){
+      navigate("/programs");
     }
   };
-  
 
   const handleAuthClick = (auth) => {
     if (auth === "Signup") {

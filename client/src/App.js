@@ -6,6 +6,7 @@ import Signup from './components/Signup';
 import Login from './components/Login'
 import Home from './components/Home';
 import Exercises from './components/Exercises';
+import Programs from './components/Programs';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/exercises" element={<Exercises />} />
+          <Route path="/programs" element={<Programs />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -28,11 +28,11 @@ function Exercise() {
   const exercisesPerPage = 9;
 
   useEffect(() => {
-    // Fetch exercises from the backend API
+    // Fetching exercises from the backend API
     axios
       .get('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises')
       .then((response) => {
-        setExercises(response.data); // Assuming the response contains exercises array
+        setExercises(response.data); 
       })
       .catch((error) => {
         console.error('Error fetching exercises:', error);
