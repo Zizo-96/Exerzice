@@ -13,11 +13,11 @@ const programs = [
       },
       {
         day: 'Day 2 Pull (Back, Rear delt, Biceps)',
-        exercises: ['0017', '0007', '0027', '0095', '0204', '0285', '0165', '0031'], 
+        exercises: ['0017', '0007', '0027', '0095', '0204', '0285', '0165', '0031'],
       },
       {
         day: 'Day 3 Legs (Legs, Abs)',
-        exercises: ['0043', '0032', '0339', '0108', '1371', '0175', '0006'], 
+        exercises: ['0043', '0032', '0339', '0108', '1371', '0175', '0006'],
       },
     ],
   },
@@ -27,7 +27,7 @@ const programs = [
     days: [
       {
         day: 'Day 1',
-        exercises: ['0027'], 
+        exercises: ['0027'],
       },
     ],
   },
@@ -131,14 +131,7 @@ function Programs() {
                             },
                           }}
                         >
-                          <CardContent
-                            sx={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              justifyContent: 'space-between',
-                              height: '100%',
-                            }}
-                          >
+                          <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
                             <Typography variant="h5" component="h2">
                               {exercise.name}
                             </Typography>
@@ -148,16 +141,18 @@ function Programs() {
                             <Typography variant="body2" component="p">
                               Equipment: {exercise.equipment}
                             </Typography>
-                            <Typography variant="body2" component="p">
-                              <strong>Instructions:</strong>
-                            </Typography>
-                            <div>
-                              {exercise.instructions.map((instruction, index) => (
-                                <Typography key={index} variant="caption" component="p" sx={{ fontSize: '0.8rem', paddingTop: 1 }}>
-                                  {index + 1}. {instruction}
-                                </Typography>
-                              ))}
-                            </div>
+                            <Box sx={{ marginTop: 2 }}>
+                              <Typography variant="body2" component="p">
+                                <strong>Instructions:</strong>
+                              </Typography>
+                              <Box>
+                                {exercise.instructions.map((instruction, index) => (
+                                  <Typography key={index} variant="caption" component="p" sx={{ fontSize: '0.8rem', paddingTop: 1 }}>
+                                    {index + 1}. {instruction}
+                                  </Typography>
+                                ))}
+                              </Box>
+                            </Box>
                           </CardContent>
                         </Card>
                       );

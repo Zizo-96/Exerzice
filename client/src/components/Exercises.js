@@ -32,12 +32,16 @@ function Exercise() {
     axios
       .get('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises')
       .then((response) => {
-        setExercises(response.data); 
+        setExercises(response.data);
       })
       .catch((error) => {
         console.error('Error fetching exercises:', error);
       });
   }, []);
+
+  useEffect(() => {
+    setPageIndex(0); // Reset pageIndex when changing category
+  }, [selectedCategory]);
 
   const handlePageChange = (event, value) => {
     setPageIndex(value - 1);
@@ -45,7 +49,6 @@ function Exercise() {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category === selectedCategory ? null : category);
-    setPageIndex(0); // Reset pageIndex when selecting a new category
   };
 
   const handleSearch = (event) => {
@@ -58,19 +61,23 @@ function Exercise() {
     exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const visibleExercises = selectedCategory
+  const categoryFilteredExercises = selectedCategory
     ? filteredExercises.filter((exercise) => exercise.bodyPart.toLowerCase() === selectedCategory.toLowerCase())
-    : filteredExercises.slice(pageIndex * exercisesPerPage, (pageIndex + 1) * exercisesPerPage);
+    : filteredExercises;
+
+  const pageCount = Math.ceil(categoryFilteredExercises.length / exercisesPerPage);
+
+  const visibleExercises = categoryFilteredExercises.slice(pageIndex * exercisesPerPage, (pageIndex + 1) * exercisesPerPage);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh'}}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
         <TextField
           label="Search Exercise"
           variant="outlined"
           value={searchQuery}
           onChange={handleSearch}
-          sx={{ margin: 3 , width: 600 }}
+          sx={{ margin: 3, width: 600 }}
         />
       </Box>
       <Grid container justifyContent="center" spacing={2} mb={2}>
@@ -105,35 +112,35 @@ function Exercise() {
               },
             }}
           >
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-              <div>
-                <Typography variant="h5" component="h2">
-                  {exercise.name}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Body Part: {exercise.bodyPart}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  Equipment: {exercise.equipment}
-                </Typography>
+            <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
+              <Typography variant="h5" component="h2">
+                {exercise.name}
+              </Typography>
+              <Typography variant="body2" component="p">
+                Body Part: {exercise.bodyPart}
+              </Typography>
+              <Typography variant="body2" component="p">
+                Equipment: {exercise.equipment}
+              </Typography>
+              <Box sx={{ marginTop: 2 }}>
                 <Typography variant="body2" component="p">
                   <strong>Instructions:</strong>
                 </Typography>
-              </div>
-              <div>
-                {exercise.instructions.map((instruction, index) => (
-                  <Typography key={index} variant="caption" component="p" sx={{ fontSize: '0.8rem', paddingTop: 1 }}>
-                    {index + 1}. {instruction}
-                  </Typography>
-                ))}
-              </div>
+                <Box>
+                  {exercise.instructions.map((instruction, index) => (
+                    <Typography key={index} variant="caption" component="p" sx={{ fontSize: '0.8rem', paddingTop: 1 }}>
+                      {index + 1}. {instruction}
+                    </Typography>
+                  ))}
+                </Box>
+              </Box>
             </CardContent>
           </Card>
         ))}
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
         <Pagination
-          count={Math.ceil(filteredExercises.length / exercisesPerPage)}
+          count={pageCount}
           color="primary"
           onChange={handlePageChange}
           page={pageIndex + 1}
