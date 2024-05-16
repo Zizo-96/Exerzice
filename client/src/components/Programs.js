@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Button, Typography, Card, CardContent, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const programs = [
@@ -26,7 +27,7 @@ const programs = [
     name: '4-Day Intermediate Program',
     days: [
       {
-        day: 'Day 1- Shoulders, Traps and Triceps' ,
+        day: 'Day 1- Shoulders, Traps and Triceps',
         exercises: ['0290', '0334', '0120', '0202', '0060', '0019'],
       },
       {
@@ -49,10 +50,11 @@ function Programs() {
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
   const [exercises, setExercises] = useState([]);
+  const [showLoginMessage, setShowLoginMessage] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (selectedDay && selectedDay.exercises.length > 0) {
-      // Fetching exercises by IDs from the backend
       const ids = selectedDay.exercises.join(',');
       axios
         .get(`https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises/by-ids?ids=${ids}`)
@@ -68,8 +70,14 @@ function Programs() {
   }, [selectedDay]);
 
   const handleProgramClick = (program) => {
+    const token = localStorage.getItem('token');
+
+    if (program.id === 2 && !token) {
+      setShowLoginMessage(!showLoginMessage); 
+      setShowLoginMessage(false);
+    }
+
     if (selectedProgram === program) {
-      // Deselect the program if it is already selected
       setSelectedProgram(null);
       setSelectedDay(null);
       setExercises([]);
@@ -102,7 +110,22 @@ function Programs() {
           </Grid>
         ))}
       </Grid>
-      {selectedProgram && (
+      {showLoginMessage && (
+        <Box sx={{ mt: 2, textAlign: 'center' }}>
+          <Typography variant="body1" color="error">
+            The 4-Day Intermediate Program is only accessible to logged-in users.
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1 }}
+            onClick={() => navigate('/login')}
+          >
+            Go to Login
+          </Button>
+        </Box>
+      )}
+      {selectedProgram && !showLoginMessage && (
         <Card sx={{ marginTop: 2 }}>
           <CardContent>
             <Typography variant="h5" component="h2">
