@@ -8,15 +8,15 @@ const programs = [
     name: '3-Day Beginner Program',
     days: [
       {
-        day: 'Day 1 Push (Chest, Shoulders and Triceps)',
+        day: 'Day 1- Push (Chest, Shoulders and Triceps)',
         exercises: ['0025', '0047', '0188', '0290', '0192', '1722', '1723'],
       },
       {
-        day: 'Day 2 Pull (Back, Rear delt, Biceps)',
+        day: 'Day 2- Pull (Back, Rear delt, Biceps)',
         exercises: ['0017', '0007', '0027', '0095', '0204', '0285', '0165', '0031'],
       },
       {
-        day: 'Day 3 Legs (Legs, Abs)',
+        day: 'Day 3- Legs (Legs, Abs)',
         exercises: ['0043', '0032', '0339', '0108', '1371', '0175', '0006'],
       },
     ],
@@ -26,8 +26,20 @@ const programs = [
     name: '4-Day Intermediate Program',
     days: [
       {
-        day: 'Day 1',
-        exercises: ['0027'],
+        day: 'Day 1- Shoulders, Traps and Triceps' ,
+        exercises: ['0290', '0334', '0120', '0202', '0060', '0019'],
+      },
+      {
+        day: 'Day 2- Legs and Calves',
+        exercises: ['0043', '0099', '0044', '0108', '0088'],
+      },
+      {
+        day: 'Day 3- Chest',
+        exercises: ['0289', '0047', '1269', '0308', '0171'],
+      },
+      {
+        day: 'Day 4- Back and Biceps',
+        exercises: ['0150', '0027', '0861', '0032', '0031', '1657', '0126'],
       },
     ],
   },
@@ -56,9 +68,16 @@ function Programs() {
   }, [selectedDay]);
 
   const handleProgramClick = (program) => {
-    setSelectedProgram(program);
-    setSelectedDay(null);
-    setExercises([]);
+    if (selectedProgram === program) {
+      // Deselect the program if it is already selected
+      setSelectedProgram(null);
+      setSelectedDay(null);
+      setExercises([]);
+    } else {
+      setSelectedProgram(program);
+      setSelectedDay(null);
+      setExercises([]);
+    }
   };
 
   const handleDayClick = (day) => {
