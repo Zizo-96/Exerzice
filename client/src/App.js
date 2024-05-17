@@ -8,6 +8,7 @@ import Home from './components/Home';
 import Exercises from './components/Exercises';
 import Programs from './components/Programs';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/programs" element={<Programs />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -73,7 +73,8 @@ function Programs() {
     const token = localStorage.getItem('token');
 
     if (program.id === 2 && !token) {
-      setShowLoginMessage(!showLoginMessage); 
+      setShowLoginMessage(!showLoginMessage);
+    } else {
       setShowLoginMessage(false);
     }
 

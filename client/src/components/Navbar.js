@@ -24,8 +24,7 @@ const authes = ['Login', 'Signup'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false); 
-
+  
   const navigate = useNavigate();
   let token;
   let decoded;
@@ -51,15 +50,14 @@ function ResponsiveAppBar() {
   };
 
   const handleSettingClick = (setting) => {
-    if (setting === "Logout") {
-      // handling logout
+    if (setting === "Profile") {
+      navigate("/profile");
+      handleCloseUserMenu();
+    } else if (setting === "Logout") {
       if (token) {
         localStorage.removeItem('token');
-        navigate("/");
-      } else {
-        navigate("/");
       }
-      setIsLoggedIn(false);
+      navigate("/");
       handleCloseUserMenu();
     }
   };
