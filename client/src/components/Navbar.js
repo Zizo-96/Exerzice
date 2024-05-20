@@ -69,6 +69,8 @@ function ResponsiveAppBar() {
       navigate("/");
     } else if(page === "Programs"){
       navigate("/programs");
+    } else{
+      navigate("/store")
     }
   };
 
