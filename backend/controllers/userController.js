@@ -40,7 +40,7 @@ const logIn = async (req,res)=>{
             return res.send({message:"Invalid or wrong password"});
         }
         let token = jwt.sign(
-            {email: user.email, id: user._id},
+            { email: user.email, id: user._id, username: user.username },
             process.env.SECRET_KEY
         );
         res.send({message: "LogIn successfully", token});
