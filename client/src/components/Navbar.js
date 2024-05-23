@@ -1,3 +1,4 @@
+// Navbar.js
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -12,10 +13,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
 import logo from '../assets/logo.png';
 import logo2 from '../assets/logo2.png';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import{ jwtDecode } from 'jwt-decode';
+import { CartContext } from './CartContext';
 
 const pages = ['Home', 'Exercises', 'Programs', 'Store'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
@@ -24,19 +27,25 @@ const authes = ['Login', 'Signup'];
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  
+  const { totalItems } = React.useContext(CartContext);
+
   const navigate = useNavigate();
   let token;
   let decoded;
   if (localStorage.getItem('token')) {
     token = localStorage.getItem('token');
-    decoded = jwtDecode(token);
+    try {
+      decoded = jwtDecode(token);
+    } catch (error) {
+      console.error('Invalid token', error);
+      localStorage.removeItem('token');
+    }
   }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -50,38 +59,42 @@ function ResponsiveAppBar() {
   };
 
   const handleSettingClick = (setting) => {
-    if (setting === "Profile") {
-      navigate("/profile");
+    if (setting === 'Profile') {
+      navigate('/profile');
       handleCloseUserMenu();
-    } else if (setting === "Logout") {
+    } else if (setting === 'Logout') {
       if (token) {
         localStorage.removeItem('token');
       }
-      navigate("/");
+      navigate('/');
       handleCloseUserMenu();
     }
   };
 
   const handlePagesClick = (page) => {
-    if (page === "Exercises") {
-      navigate("/exercises");
-    } else if(page === "Home"){
-      navigate("/");
-    } else if(page === "Programs"){
-      navigate("/programs");
-    } else{
-      navigate("/store")
+    if (page === 'Exercises') {
+      navigate('/exercises');
+    } else if (page === 'Home') {
+      navigate('/');
+    } else if (page === 'Programs') {
+      navigate('/programs');
+    } else {
+      navigate('/store');
     }
   };
 
   const handleAuthClick = (auth) => {
-    if (auth === "Signup") {
+    if (auth === 'Signup') {
       navigate('/signup'); // Navigate to the signup page
       handleCloseUserMenu();
-    }else{
+    } else {
       navigate('/login'); // Navigate to login page
     }
     setAnchorElUser(null);
+  };
+
+  const handleCartClick = () => {
+    navigate('/cart');
   };
 
   return (
@@ -115,7 +128,7 @@ function ResponsiveAppBar() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' }}}
+              sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -129,7 +142,7 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
             <img src={logo} alt="Logo" height="30rem" />
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' },alignItems: 'center'}}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -140,7 +153,11 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-          <ShoppingCartIcon fontSize="large" sx={{ m: 3 }} />
+          <IconButton color="inherit" onClick={handleCartClick} sx={{marginRight: 1}}>
+            <Badge badgeContent={totalItems} color="secondary" >
+              <ShoppingCartIcon fontSize="large" />
+            </Badge>
+          </IconButton>
           <Box>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -162,15 +179,14 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* rendering the authentication elements when user isn't logged in */}
               {!token ? (
                 authes.map((auth) => (
-                  <MenuItem key={auth} >
+                  <MenuItem key={auth}>
                     <Typography textAlign="center" onClick={() => handleAuthClick(auth)}>
                       {auth}
                     </Typography>
                   </MenuItem>
-                   ))
+                ))
               ) : (
                 settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>

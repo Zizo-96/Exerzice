@@ -114,7 +114,7 @@ function Programs() {
       {showLoginMessage && (
         <Box sx={{ mt: 2, textAlign: 'center' }}>
           <Typography variant="body1" color="error">
-            The 4-Day Intermediate Program is only accessible to logged-in users.
+            This program is only accessible to logged-in users.
           </Typography>
           <Button
             variant="contained"
