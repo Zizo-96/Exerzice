@@ -8,12 +8,14 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 function Exercise() {
   const [exercises, setExercises] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+
   const categories = [
     'Chest',
     'Back',
@@ -25,7 +27,10 @@ function Exercise() {
     'Lower Legs',
     'Cardio'
   ];
-  const exercisesPerPage = 9;
+
+  const isLargeScreen = useMediaQuery('(min-width: 1600px)');
+  const isMediumScreen = useMediaQuery('(min-width: 1210px)'); 
+  const exercisesPerPage = isLargeScreen ? 12 : isMediumScreen ? 9 : 6;
 
   useEffect(() => {
     // Fetching exercises from the backend API
@@ -70,8 +75,8 @@ function Exercise() {
   const visibleExercises = categoryFilteredExercises.slice(pageIndex * exercisesPerPage, (pageIndex + 1) * exercisesPerPage);
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, mt: 2 }}>
         <TextField
           label="Search Exercise"
           variant="outlined"
@@ -123,16 +128,16 @@ function Exercise() {
                 Equipment: {exercise.equipment}
               </Typography>
               <Box sx={{ marginTop: 2 }}>
-                <Typography variant="body2" component="p">
+                {/* <Typography variant="body2" component="p">
                   <strong>Instructions:</strong>
-                </Typography>
-                <Box>
+                </Typography> */}
+                {/* <Box>
                   {exercise.instructions.map((instruction, index) => (
                     <Typography key={index} variant="caption" component="p" sx={{ fontSize: '0.8rem', paddingTop: 1 }}>
                       {index + 1}. {instruction}
                     </Typography>
                   ))}
-                </Box>
+                </Box> */}
               </Box>
             </CardContent>
           </Card>
