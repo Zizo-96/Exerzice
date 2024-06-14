@@ -29,7 +29,14 @@ const saveExercisesToDatabase = async () => {
     // Save exercises to MongoDB if they don't already exist
     for (const exerciseData of exercisesData) {
       const existingExercise = await Exercise.findOne({ id: exerciseData.id });
-      if (!existingExercise) {
+
+      if (existingExercise) {
+        // Compare gifUrl and update it if necessary
+        if (existingExercise.gifUrl !== exerciseData.gifUrl) {
+          existingExercise.gifUrl = exerciseData.gifUrl;
+          await existingExercise.save();
+        }
+      } else {
         await Exercise.create(exerciseData);
       }
     }
