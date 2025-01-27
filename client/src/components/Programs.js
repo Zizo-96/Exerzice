@@ -57,7 +57,9 @@ function Programs() {
     if (selectedDay && selectedDay.exercises.length > 0) {
       const ids = selectedDay.exercises.join(',');
       axios
-        .get(`https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises/by-ids?ids=${ids}`)
+        .get(`http://localhost:8000/exercises/by-ids?ids=${ids}`)
+        // The following line is to work with the repository on Codespaces.
+        // .get(`https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises/by-ids?ids=${ids}`) 
         .then((response) => {
           setExercises(response.data);
         })

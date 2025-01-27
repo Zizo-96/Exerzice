@@ -26,24 +26,27 @@ const saveExercisesToDatabase = async () => {
     // Fetch exercises from the API
     const exercisesData = await fetchExercisesFromAPI();
 
-    // Save exercises to MongoDB if they don't already exist
+    // Save or update exercises in the database
     for (const exerciseData of exercisesData) {
       const existingExercise = await Exercise.findOne({ id: exerciseData.id });
-
-      if (existingExercise) {
-        // Compare gifUrl and update it if necessary
+      
+      if (!existingExercise) {
+        // If exercise doesn't exist, create a new one
+        await Exercise.create(exerciseData);
+      } else {
+        // If exercise exists, check if the GIF has changed
         if (existingExercise.gifUrl !== exerciseData.gifUrl) {
+          // If the GIF URL is different, update the record with the new GIF URL
           existingExercise.gifUrl = exerciseData.gifUrl;
           await existingExercise.save();
+          console.log(`Exercise with id ${exerciseData.id} updated with new GIF URL.`);
         }
-      } else {
-        await Exercise.create(exerciseData);
       }
     }
 
-    console.log('Exercises saved to database successfully.');
+    console.log('Exercises saved/updated successfully.');
   } catch (error) {
-    console.error('Error saving exercises to database:', error);
+    console.error('Error saving/updating exercises to database:', error);
   }
 };
 

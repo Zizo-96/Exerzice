@@ -27,8 +27,9 @@ export default function SignUp() {
     event.preventDefault();
     try {
       let user = {username, email, password};
-      // let res = await axios.post('http://localhost:8000/user/signup', user);
-      let res = await axios.post('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/users/signup', user);
+      let res = await axios.post('http://localhost:8000/user/signup', user);
+      // The following line is to work with the repository on Codespaces.
+      // let res = await axios.post('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/users/signup', user);
       console.log(res.data.message)
       setAlert({ severity: 'error', message: res.data.message });
       if (res.data.message === "Registered successfully") {

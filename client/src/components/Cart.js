@@ -1,4 +1,3 @@
-// Cart.js
 import React, { useContext } from 'react';
 import { Box, Typography, List, ListItem, ListItemText, IconButton, Button, Divider } from '@mui/material';
 import { CartContext } from './CartContext';

@@ -35,7 +35,9 @@ function Exercise() {
   useEffect(() => {
     // Fetching exercises from the backend API
     axios
-      .get('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises')
+      .get('http://localhost:8000/exercises')
+      // The following line is to work with the repository on Codespaces.
+      // .get('https://cuddly-memory-jj56px57x475f5vwg-8000.app.github.dev/exercises')
       .then((response) => {
         setExercises(response.data);
       })
